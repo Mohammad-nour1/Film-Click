@@ -66,6 +66,11 @@ flutter:
     - assets/animation/Logo-21.json
     - assets/animation/Logo-2.mp4
     - assets/animation/Logo-22.json
+    - assets/animation/Logo-24.json
+    - assets/animation/Logo-23.json
+    - assets/images/Landing.png
+    - assets/images/logpic.png
+    - assets/images/rigspic.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
