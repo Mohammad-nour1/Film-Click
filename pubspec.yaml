@@ -35,12 +35,21 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   get: ^4.6.6
-  lottie: ^3.1.3
+  lottie: ^3.2.0
   video_player: ^2.9.2
+  flutter_launcher_icons: ^0.14.2
+  carousel_slider: ^5.0.0
+  http: ^1.2.2
+  youtube_player_flutter: ^9.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/fc.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -63,14 +72,16 @@ flutter:
   assets:
     #- images/a_dot_burr.jpeg
     #- images/a_dot_ham.jpeg
-    - assets/animation/Logo-21.json
-    - assets/animation/Logo-2.mp4
-    - assets/animation/Logo-22.json
     - assets/animation/Logo-24.json
     - assets/animation/Logo-23.json
     - assets/images/Landing.png
     - assets/images/logpic.png
     - assets/images/rigspic.png
+    - assets/images/fc.png
+    - assets/images/cin.png
+    - assets/animation/movie1.json
+    - assets/animation/loading.gif
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

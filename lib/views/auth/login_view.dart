@@ -10,7 +10,7 @@ class LoginView extends StatelessWidget {
         children: [
           // خلفية الصورة
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/logpic.png'), // مسار الصورة
                 fit: BoxFit.cover, // لتعبئة الشاشة بالكامل
@@ -89,7 +89,9 @@ class LoginView extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.home);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF36FFDB),
                           padding: const EdgeInsets.symmetric(
