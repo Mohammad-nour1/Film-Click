@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:filmclick/controllers/details_controller.dart';
 import 'package:filmclick/models/movie_model.dart';
 
-
 class HorizontalMovieList extends StatelessWidget {
   final Future<List<dynamic>> itemsFuture;
   final String title;
@@ -22,9 +21,19 @@ class HorizontalMovieList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
+        Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'CooperArabic', // الخط العربي المستخدم
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 15,
         ),
         SizedBox(
           height: 200,
@@ -71,7 +80,8 @@ class HorizontalMovieList extends StatelessWidget {
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),

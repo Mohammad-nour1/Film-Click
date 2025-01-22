@@ -20,22 +20,31 @@ class MainBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 55,
+        ),
         MovieCarousel(
           moviesFuture: upcomingMoviesFuture,
-          title: 'Upcoming Movies',
+          title: 'أفلام مميزة',
         ),
         const SizedBox(height: 20),
         HorizontalMovieList(
           itemsFuture: popularMoviesFuture,
-          title: 'Popular Movies',
+          title: 'أفلام شائعة ',
           isMovie: true,
         ),
         const SizedBox(height: 20),
         HorizontalMovieList(
           itemsFuture: popularTvShowsFuture,
-          title: 'Popular TV Shows',
+          title: 'مسلسلات شائعة',
           isMovie: false,
         ),
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          height: 50,
+        )
       ],
     );
   }

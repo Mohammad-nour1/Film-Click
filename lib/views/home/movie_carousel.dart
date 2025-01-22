@@ -17,11 +17,15 @@ class MovieCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 70),
+        const SizedBox(height: 80),
         Text(
           title,
           style: const TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            fontSize: 19,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: 'CooperArabic',
+          ),
         ),
         const SizedBox(height: 15),
         FutureBuilder<List<Movie>>(
@@ -64,7 +68,8 @@ class MovieCarousel extends StatelessWidget {
                                 movie.title,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,

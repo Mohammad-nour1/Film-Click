@@ -1,8 +1,8 @@
+import 'package:filmclick/controllers/nav_controller.dart';
 import 'package:filmclick/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
 class SideBar extends StatelessWidget {
   final String currentRoute;
 
@@ -17,12 +17,11 @@ class SideBar extends StatelessWidget {
         width: 80,
         height: 670,
         decoration: BoxDecoration(
-          color: Color(0xFF1A2E46).withOpacity(0.75), // إضافة الشفافية للخلفية
+          color: Color(0xFF1A2E46).withOpacity(0.75),
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         child: Column(
           children: [
-            // استخدام Lottie بدلاً من الصورة الثابتة
             Padding(
               padding: const EdgeInsets.all(9),
               child: Container(
@@ -30,24 +29,22 @@ class SideBar extends StatelessWidget {
                   height: 57,
                   child: Image.asset("assets/images/cin.png")),
             ),
-
             SizedBox(height: 170),
-            // بقية الأزرار
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildIconButton(Icons.home, AppRoutes.home, currentRoute),
+                  _buildIconButton(Icons.home, AppRoutes.home),
                   SizedBox(height: 15),
-                  _buildIconButton(Icons.movie, AppRoutes.movies, currentRoute),
+                  _buildIconButton(Icons.movie, AppRoutes.movies),
                   SizedBox(height: 15),
-                  _buildIconButton(Icons.tv, AppRoutes.series, currentRoute),
+                  _buildIconButton(Icons.tv, AppRoutes.series),
                   SizedBox(height: 15),
-                  _buildIconButton(
-                      Icons.favorite, AppRoutes.favorites, currentRoute),
+                  _buildIconButton(Icons.favorite, AppRoutes.favorites),
                   SizedBox(height: 15),
-                  _buildIconButton(
-                      Icons.settings, AppRoutes.settings, currentRoute),
+                  _buildIconButton(Icons.sports_soccer, AppRoutes.football),
+                  SizedBox(height: 15),
+                  _buildIconButton(Icons.settings, AppRoutes.settings),
                 ],
               ),
             ),
@@ -57,7 +54,7 @@ class SideBar extends StatelessWidget {
     );
   }
 
-  Widget _buildIconButton(IconData icon, String route, String currentRoute) {
+  Widget _buildIconButton(IconData icon, String route) {
     final isSelected = route == currentRoute;
 
     return GestureDetector(
@@ -102,17 +99,6 @@ class SideBar extends StatelessWidget {
           ],
         ],
       ),
-    );
-  }
-}
-
-class SideBarContainer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 78,
-      height: 670,
-      child: SideBar(currentRoute: AppRoutes.home),
     );
   }
 }

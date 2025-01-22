@@ -41,6 +41,7 @@ dependencies:
   carousel_slider: ^5.0.0
   http: ^1.2.2
   youtube_player_flutter: ^9.1.1
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,12 @@ flutter:
     - assets/images/cin.png
     - assets/animation/movie1.json
     - assets/animation/loading.gif
+    - assets/fonts/CooperArabic.ttf
+
+  fonts:
+    - family: CooperArabic
+      fonts:
+        - asset: assets/fonts/CooperArabic.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
