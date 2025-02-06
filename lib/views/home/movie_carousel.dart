@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:filmclick/views/details_veiw.dart';
+import 'package:filmclick/models/movie_model.dart';
+import 'package:filmclick/views/details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:filmclick/controllers/details_controller.dart';
-import 'package:filmclick/models/movie_model.dart';
 
 class MovieCarousel extends StatelessWidget {
   final Future<List<Movie>> moviesFuture;
@@ -65,7 +65,7 @@ class MovieCarousel extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                movie.title,
+                                movie!.title,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,

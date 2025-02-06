@@ -1,10 +1,11 @@
-import 'package:filmclick/models/tv_model.dart';
 import 'package:filmclick/services/fetchs_service.dart';
 import 'package:get/get.dart';
 import 'package:filmclick/models/movie_model.dart';
 
 class DetailsController extends GetxController {
   final MovieService _movieService = MovieService();
+
+
 
   // المتغيرات التي ستخزن بيانات الفيلم والمسلسل
   var movie = Movie(
@@ -81,7 +82,6 @@ class DetailsController extends GetxController {
         (video) => video['type'] == 'Trailer',
         orElse: () => {'key': ''},
       )['key'];
-
       // جلب الفيديو الرئيسي (Teaser)
       mainVideoKey.value = videos.firstWhere(
         (video) => video['type'] == 'Teaser',
@@ -105,7 +105,6 @@ class DetailsController extends GetxController {
   void toggleFavorite(int i) {
     final currentItem = movie.value.id != 0 ? movie.value : tvShow.value;
     final isMovie = movie.value.id != 0;
-
     if (isMovie && currentItem is Movie) {
       if (isFavorite.value) {
         favorites.removeWhere((item) => item['id'] == currentItem.id);

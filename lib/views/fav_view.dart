@@ -1,4 +1,4 @@
-import 'package:filmclick/views/details_veiw.dart';
+import 'package:filmclick/views/details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:filmclick/controllers/details_controller.dart';
@@ -7,7 +7,7 @@ import 'package:filmclick/controllers/details_controller.dart';
 class FavoritesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final DetailsController controller = Get.find();
+    final DetailsController controller = Get.put(DetailsController());
 
     return Scaffold(
       appBar: AppBar(
@@ -30,10 +30,10 @@ class FavoritesView extends StatelessWidget {
         if (controller.favorites.isEmpty) {
           return Center(
             child: Text(
-              'No favorites added yet.',
+              'لم تضف شيئاً بعد الى المفضلة ',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 30,
+                fontSize: 18,
                 fontStyle: FontStyle.italic,
               ),
             ),

@@ -1,3 +1,4 @@
+ 
 class MovieResponse {
   final Dates dates;
   final int page;
@@ -89,6 +90,7 @@ class Dates {
 ///////////////////////////////////////////////////////
 
 class TvShow {
+  final String type = 'tv'; 
   final bool adult;
   final String backdropPath;
   final List<int> genreIds;
@@ -104,7 +106,7 @@ class TvShow {
   final double voteAverage;
   final int voteCount;
   final bool video;
-   final List<dynamic> seasons;
+  final List<dynamic> seasons;
 
   // Constructor
   TvShow({
@@ -123,7 +125,8 @@ class TvShow {
     required this.voteAverage,
     required this.voteCount,
     required this.video,
-    required this.seasons, required List cast,
+    required this.seasons,
+    required List cast,
   });
 
   // تحويل من JSON إلى كائن TvShow
@@ -147,6 +150,8 @@ class TvShow {
       seasons: json['seasons'] ?? [], cast: [],
     );
   }
+
+  get cast => null;
 
   // Convert TvShow instance to JSON
   Map<String, dynamic> toJson() {
@@ -173,6 +178,7 @@ class TvShow {
 //////////////////////////////////////////////////////////////////////////
 
 class Movie {
+  final String type = 'movie';
   final bool adult;
   final String backdropPath;
   final List<int> genreIds;
@@ -202,7 +208,8 @@ class Movie {
     required this.title,
     required this.video,
     required this.voteAverage,
-    required this.voteCount, required List cast,
+    required this.voteCount,
+    required List cast,
   });
 
   // Factory method to create a Movie from JSON
@@ -221,9 +228,12 @@ class Movie {
       title: json['title'] ?? '',
       video: json['video'] ?? false,
       voteAverage: json['vote_average']?.toDouble() ?? 0.0,
-      voteCount: json['vote_count'] ?? 0, cast: [],
+      voteCount: json['vote_count'] ?? 0,
+      cast: [],
     );
   }
+
+  get cast => null;
 
   // Convert a Movie instance to JSON
   Map<String, dynamic> toJson() {
@@ -245,6 +255,4 @@ class Movie {
     };
   }
 }
-
-
-
+ 

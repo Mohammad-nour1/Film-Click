@@ -1,19 +1,17 @@
-import 'package:filmclick/views/details_veiw.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:filmclick/controllers/details_controller.dart';
 import 'package:filmclick/models/movie_model.dart';
+import 'package:filmclick/views/details_view.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class HorizontalMovieList extends StatelessWidget {
-  final Future<List<dynamic>> itemsFuture;
+class HorizontalMovieListForTvShows extends StatelessWidget {
+  final Future<List<TvShow>> tvShowsFuture;
   final String title;
-  final bool isMovie;
 
-  const HorizontalMovieList({
+  const HorizontalMovieListForTvShows({
     Key? key,
-    required this.itemsFuture,
+    required this.tvShowsFuture,
     required this.title,
-    this.isMovie = true,
   }) : super(key: key);
 
   @override
@@ -25,38 +23,32 @@ class HorizontalMovieList extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontFamily: 'CooperArabic', // الخط العربي المستخدم
+              fontFamily: 'CooperArabic',
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
         ),
-        SizedBox(
-          height: 15,
-        ),
+        SizedBox(height: 15),
         SizedBox(
           height: 200,
-          child: FutureBuilder<List<dynamic>>(
-            future: itemsFuture,
+          child: FutureBuilder<List<TvShow>>(
+            future: tvShowsFuture,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
-
-              final items = snapshot.data!;
+              final tvShows = snapshot.data!;
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: items.length,
+                itemCount: tvShows.length,
                 itemBuilder: (context, index) {
-                  final item = items[index];
+                  final tvShow = tvShows[index];
                   return GestureDetector(
+                    key: Key('tvshow_${tvShow.id}'), // إضافة مفتاح فريد
                     onTap: () {
-                      if (isMovie) {
-                        Get.put(DetailsController()).setMovie(item);
-                      } else {
-                        Get.put(DetailsController()).setTvShow(item);
-                      }
+                      Get.put(DetailsController()).setTvShow(tvShow);
                       Get.to(() => DetailsView());
                     },
                     child: Container(
@@ -68,7 +60,8 @@ class HorizontalMovieList extends StatelessWidget {
                           fit: StackFit.expand,
                           children: [
                             Image.network(
-                              "https://image.tmdb.org/t/p/original/${isMovie ? item.backdropPath : item.backdropPath}",
+                              "https://image.tmdb.org/t/p/original/${tvShow.backdropPath}",
+                             
                               fit: BoxFit.cover,
                             ),
                             Container(
@@ -76,7 +69,7 @@ class HorizontalMovieList extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  isMovie ? item.title : item.name,
+                                  tvShow.name,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,

@@ -1,12 +1,9 @@
-import 'package:filmclick/controllers/nav_controller.dart';
 import 'package:filmclick/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-class SideBar extends StatelessWidget {
-  final String currentRoute;
 
-  const SideBar({Key? key, required this.currentRoute}) : super(key: key);
+class SideBar extends StatelessWidget {
+  const SideBar({Key? key}) : super(key: key); // 🔹 إزالة currentRoute من هنا
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +12,7 @@ class SideBar extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(top: 50, right: 10),
         width: 80,
-        height: 670,
+        height: 590,
         decoration: BoxDecoration(
           color: Color(0xFF1A2E46).withOpacity(0.75),
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -25,11 +22,12 @@ class SideBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(9),
               child: Container(
-                  width: 57,
-                  height: 57,
-                  child: Image.asset("assets/images/cin.png")),
+                width: 57,
+                height: 57,
+                child: Image.asset("assets/images/cin.png"),
+              ),
             ),
-            SizedBox(height: 170),
+            SizedBox(height: 150),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -38,13 +36,11 @@ class SideBar extends StatelessWidget {
                   SizedBox(height: 15),
                   _buildIconButton(Icons.movie, AppRoutes.movies),
                   SizedBox(height: 15),
-                  _buildIconButton(Icons.tv, AppRoutes.series),
+                  _buildIconButton(Icons.tv, AppRoutes.tvshows),
                   SizedBox(height: 15),
                   _buildIconButton(Icons.favorite, AppRoutes.favorites),
                   SizedBox(height: 15),
                   _buildIconButton(Icons.sports_soccer, AppRoutes.football),
-                  SizedBox(height: 15),
-                  _buildIconButton(Icons.settings, AppRoutes.settings),
                 ],
               ),
             ),
@@ -55,12 +51,13 @@ class SideBar extends StatelessWidget {
   }
 
   Widget _buildIconButton(IconData icon, String route) {
-    final isSelected = route == currentRoute;
+    final isSelected =
+        route == Get.currentRoute; // ✅ استخدام Get.currentRoute مباشرة
 
     return GestureDetector(
       onTap: () {
         if (!isSelected) {
-          Get.toNamed(route);
+          Get.offNamed(route);
         }
       },
       child: Column(

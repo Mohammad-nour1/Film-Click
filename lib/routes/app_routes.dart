@@ -6,6 +6,7 @@ class AppRoutes {
   static const String landing = '/landing';
   static const String settings = '/settings';
   static const String search = '/search';
+  static const String tvshows = '/tvshows';
   static const String movies = '/movies';
   static const String series = '/series';
   static const String watchlist = '/watchlist';
@@ -14,4 +15,6 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String notifications = '/notifications';
   static const String football = '/football';
+  static const String detailsview = '/detailsview';
+
 }

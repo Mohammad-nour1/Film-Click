@@ -1,19 +1,18 @@
 import 'package:filmclick/models/movie_model.dart';
- // تأكد من أنك أضفت نموذج TvShow
 import 'package:filmclick/api/api_service.dart';
-import 'package:filmclick/models/tv_model.dart';        // استيراد خدمة API
+      
 
 class MovieService {
-  final ApiService _apiService = ApiService();  // خدمة الـ API
+  final ApiService _apiService = ApiService();  
 
-  // دالة لجلب الأفلام الأعلى تقييمًا
+   
   Future<List<Movie>> fetchTopRatedMovies() async {
     final data = await _apiService.getRequest('movie/top_rated');
     List<dynamic> results = data['results'];
     return results.map((movieJson) => Movie.fromJson(movieJson)).toList();
   }
 
-  // دالة لجلب الأفلام الشائعة
+  
   Future<List<Movie>> fetchPopularMovies() async {
     final data = await _apiService.getRequest('movie/popular');
     List<dynamic> results = data['results'];
@@ -40,7 +39,6 @@ class MovieService {
     return results.map((tvJson) => TvShow.fromJson(tvJson)).toList();
   }
 
-  // دالة لجلب المسلسلات الأعلى تقييمًا
   Future<List<TvShow>> fetchTopRatedTvShows() async {
     final data = await _apiService.getRequest('tv/top_rated');
     List<dynamic> results = data['results'];
@@ -56,5 +54,15 @@ class MovieService {
     List<dynamic> results = data['cast'];
     return results.map((castJson) => castJson as Map<String, dynamic>).toList();
   }
+  Future<Map<String, dynamic>> fetchEpisodeDetails(int tvShowId, int seasonNumber, int episodeNumber) async {
+  final data = await _apiService.getRequest('tv/$tvShowId/season/$seasonNumber/episode/$episodeNumber');
+  return data;
+}
 
+/*Future<List<Episode>> fetchSeasonEpisodes(int tvShowId, int seasonNumber) async {
+    final data = await _apiService.getRequest('tv/$tvShowId/season/$seasonNumber');
+    List<dynamic> episodesData = data['episodes'];
+    return episodesData.map((episodeJson) => Episode.fromJson(episodeJson)).toList();
+  }*/
+  
 }

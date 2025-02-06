@@ -1,4 +1,4 @@
-/*import 'package:filmclick/models/tv_model.dart';
+import 'package:filmclick/models/movie_model.dart';
 import 'package:filmclick/services/cast_service.dart';
 import 'package:filmclick/services/fetchs_service.dart';
 import 'package:filmclick/services/video_service.dart';
@@ -55,4 +55,4 @@ class TvShowDetailsController extends GetxController {
       print('Error fetching cast: $e');
     }
   }
-}*/
+}

@@ -37,20 +37,27 @@ dependencies:
   get: ^4.6.6
   lottie: ^3.2.0
   video_player: ^2.9.2
-  flutter_launcher_icons: ^0.14.2
   carousel_slider: ^5.0.0
   http: ^1.2.2
   youtube_player_flutter: ^9.1.1
   url_launcher: ^6.3.1
+  flutter_downloader: ^1.11.8
+  redacted: ^1.0.13
+  shimmer: ^3.0.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_local_notifications: ^18.0.1
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter_icons:
-  android: true
+flutter_launcher_icons:
+  android: ture
   ios: true
   image_path: "assets/images/fc.png"
+  adaptive_icon_foreground: "assets/images/fc.png"
+  adaptive_icon_background: "#FFFFFF"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -79,7 +86,9 @@ flutter:
     - assets/images/logpic.png
     - assets/images/rigspic.png
     - assets/images/fc.png
+    - assets/images/search.png
     - assets/images/cin.png
+    - assets/images/prof.png
     - assets/animation/movie1.json
     - assets/animation/loading.gif
     - assets/fonts/CooperArabic.ttf
