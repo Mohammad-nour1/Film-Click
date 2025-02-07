@@ -16,5 +16,7 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String football = '/football';
   static const String detailsview = '/detailsview';
+   static const String livetv = '/livetv';
+   static const String teamDetails = '/teamDetails';
 
 }

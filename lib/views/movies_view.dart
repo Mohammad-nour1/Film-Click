@@ -1,3 +1,4 @@
+import 'package:filmclick/controllers/details_controller.dart';
 import 'package:filmclick/controllers/movie_controller.dart';
 import 'package:filmclick/views/details_view.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ class MoviesView extends StatelessWidget {
         backgroundColor: Color(0xFF0B102F),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
+          onPressed: () {
+            Get.toNamed("/home");
+          },
         ),
       ),
       backgroundColor: Color(0xFF0B102F),
@@ -42,9 +45,11 @@ class MoviesView extends StatelessWidget {
               alignment: WrapAlignment.center,
               children: moviesController.movies.map((movie) {
                 return GestureDetector(
+                  key: Key('movie_${movie.id}'), // مفتاح فريد
                   onTap: () {
-                    // ⬇ تابع الضغط على الصورة هنا
-                    Get.to(DetailsView(), arguments: {'movieId': movie.id});
+                    final detailsController = Get.put(DetailsController());
+                    detailsController.setMovie(movie);
+                    Get.to(() => DetailsView());
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

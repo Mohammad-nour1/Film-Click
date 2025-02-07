@@ -7,21 +7,22 @@ import 'package:filmclick/controllers/details_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailsView extends StatelessWidget {
-final DetailsController controller = Get.put(DetailsController());
+  final DetailsController controller = Get.put(DetailsController());
 
   @override
   Widget build(BuildContext context) {
-    final Movie? movie = Get.arguments['movie'];
-    final TvShow? tvShow = Get.arguments['tvShow'];
+    final Movie? movie =
+        controller.movie.value.id != 0 ? controller.movie.value : null;
+    final TvShow? tvShow =
+        controller.tvShow.value.id != 0 ? controller.tvShow.value : null;
 
     return WillPopScope(
       onWillPop: () async {
         final homeController = Get.find<HomeController>();
-        Get.offAll(() => HomeView()); // العودة إلى الصفحة الرئيسية
+        Get.toNamed("/home"); // العودة إلى الصفحة الرئيسية
         homeController.refreshData();
         return false;
       },
-
       child: Scaffold(
         backgroundColor: Color(0xFF0B102F),
         appBar: AppBar(
@@ -31,8 +32,9 @@ final DetailsController controller = Get.put(DetailsController());
             onPressed: () {
               final homeController = Get.find<HomeController>();
               homeController.refreshData();
-              Get.offAll(() => HomeView());
+              Get.toNamed("/home");
             },
+           
           ),
           title: Text(
             movie != null ? movie.title : tvShow?.name ?? 'Details',
@@ -209,7 +211,8 @@ final DetailsController controller = Get.put(DetailsController());
         ? controller.mainVideoKey.value
         : controller.trailerVideoKey.value;
     if (videoKey.isEmpty) {
-      Get.snackbar("No Video", "Unfortunately, no trailer or video is available.");
+      Get.snackbar(
+          "No Video", "Unfortunately, no trailer or video is available.");
       return;
     }
     Get.dialog(
@@ -227,14 +230,17 @@ final DetailsController controller = Get.put(DetailsController());
   Widget buildSeasonsList() {
     final tvShow = controller.tvShow.value;
     if (tvShow.seasons.isEmpty) {
-      return Center(child: Text('No seasons available', style: TextStyle(color: Colors.white)));
+      return Center(
+          child: Text('No seasons available',
+              style: TextStyle(color: Colors.white)));
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Seasons',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         ListView.separated(
           shrinkWrap: true,
@@ -249,7 +255,8 @@ final DetailsController controller = Get.put(DetailsController());
                 width: 50,
               ),
               title: Text(season.name, style: TextStyle(color: Colors.white)),
-              subtitle: Text("Episodes: ${season.episodeCount}", style: TextStyle(color: Colors.white70)),
+              subtitle: Text("Episodes: ${season.episodeCount}",
+                  style: TextStyle(color: Colors.white70)),
               onTap: () {},
             );
           },
@@ -264,19 +271,22 @@ final DetailsController controller = Get.put(DetailsController());
       children: [
         Text(
           'Cast',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         Obx(() {
           final cast = controller.cast.value;
           if (cast.isEmpty) {
-            return Text('No cast available', style: TextStyle(color: Colors.white70));
+            return Text('No cast available',
+                style: TextStyle(color: Colors.white70));
           }
           return SizedBox(
             height: 150,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: cast.length,
-              separatorBuilder: (context, index) => Divider(color: Colors.white),
+              separatorBuilder: (context, index) =>
+                  Divider(color: Colors.white),
               itemBuilder: (context, index) {
                 final actor = cast[index];
                 return Padding(
@@ -289,7 +299,8 @@ final DetailsController controller = Get.put(DetailsController());
                         ),
                         radius: 40,
                       ),
-                      Text(actor['name'], style: TextStyle(color: Colors.white)),
+                      Text(actor['name'],
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 );

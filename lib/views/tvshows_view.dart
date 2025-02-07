@@ -1,4 +1,6 @@
+import 'package:filmclick/controllers/details_controller.dart';
 import 'package:filmclick/controllers/tv_show_controller.dart';
+import 'package:filmclick/views/details_view.dart';
 import 'package:filmclick/views/view_details/tvshow_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +17,9 @@ class TvShowsView extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 11, 16, 47),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
+          onPressed: () {
+            Get.toNamed("/home");
+          },
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 11, 16, 47),
@@ -47,9 +51,11 @@ class TvShowsView extends StatelessWidget {
               alignment: WrapAlignment.center,
               children: tvShowsController.tvShows.map((tvShow) {
                 return GestureDetector(
+                  key: Key('tvshow_${tvShow.id}'), // إضافة مفتاح فريد
                   onTap: () {
-                    // تابع الضغط على الصورة هنا
-                 
+                    Get.put(DetailsController()).setTvShow(tvShow);
+
+                    Get.to(() => DetailsView());
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

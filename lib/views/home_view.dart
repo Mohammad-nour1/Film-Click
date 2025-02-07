@@ -3,25 +3,48 @@ import 'package:filmclick/views/search_veiw.dart';
 import 'package:filmclick/views/home/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:fluttertoast/fluttertoast.dart'; // لإظهار التوست
+import 'package:flutter/services.dart'; // للخروج من التطبيق
 import 'package:filmclick/controllers/home_controller.dart';
 import 'package:filmclick/controllers/settings_controller.dart';
 import 'package:filmclick/views/home/main_body.dart';
 import 'package:filmclick/views/home/header_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
   final SettingsController settingsController = Get.put(SettingsController());
 
+  DateTime? lastPressedTime; // متغير لحفظ وقت آخر ضغطة على زر الرجوع
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (!settingsController.isSideBarOpen.value) {
+        // إذا كان السايد بار مفتوحًا، قم بإغلاقه بدلًا من الخروج
+        if (settingsController.isSideBarOpen.value) {
           settingsController.toggleSettings();
-          return false; // Prevent back navigation until Sidebar appears
+          return false;
         }
-        return true; // Allow back navigation if Sidebar is open
+
+        DateTime now = DateTime.now();
+        if (lastPressedTime == null ||
+            now.difference(lastPressedTime!) > const Duration(seconds: 2)) {
+          lastPressedTime = now;
+          Fluttertoast.showToast(
+            msg: "اضغط مرة أخرى للخروج",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          return false; // لا يخرج من التطبيق عند الضغط لأول مرة
+        }
+
+        // إذا ضغط المستخدم مرتين خلال ثانيتين، يخرج التطبيق
+        SystemNavigator.pop();
+        return true;
       },
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -48,7 +71,8 @@ class HomeView extends StatelessWidget {
                 },
                 child: SingleChildScrollView(
                   child: MainBody(
-                    upcomingMoviesFuture: Future.value(homeController.upcomingMovies),
+                    upcomingMoviesFuture:
+                        Future.value(homeController.upcomingMovies),
                     popularMoviesFuture: Future.value(homeController.movies),
                     popularTvShowsFuture: Future.value(homeController.tvShows),
                   ),
@@ -70,7 +94,9 @@ class HomeView extends StatelessWidget {
               child: Obx(() {
                 return IconButton(
                   icon: Icon(
-                    settingsController.isSideBarOpen.value ? Icons.close : Icons.menu,
+                    settingsController.isSideBarOpen.value
+                        ? Icons.close
+                        : Icons.menu,
                     color: const Color.fromARGB(255, 103, 237, 250),
                     size: 30,
                   ),
@@ -81,14 +107,14 @@ class HomeView extends StatelessWidget {
               }),
             ),
             Obx(() => AnimatedPositioned(
-              duration: Duration(milliseconds: 300),
-              left: settingsController.isSideBarOpen.value
-                  ? 0
-                  : -MediaQuery.of(context).size.width * 0.5,
-              top: 0,
-              bottom: 0,
-              child: SettingsView(),
-            )),
+                  duration: Duration(milliseconds: 300),
+                  left: settingsController.isSideBarOpen.value
+                      ? 0
+                      : -MediaQuery.of(context).size.width * 0.5,
+                  top: 0,
+                  bottom: 0,
+                  child: SettingsView(),
+                )),
           ],
         ),
       ),

@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:filmclick/models/football/Event_model.dart';
-import 'package:filmclick/models/football/leagu_model.dart';
+import 'package:filmclick/models/football/standing_model.dart';
 import 'package:filmclick/models/football/team_model.dart';
 import 'package:filmclick/services/football_service.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FootballView extends StatefulWidget {
   @override
@@ -11,11 +12,32 @@ class FootballView extends StatefulWidget {
 
 class _FootballViewState extends State<FootballView> {
   int _selectedIndex = 0;
+  final String videoUrl = "https://youtu.be/ghz-w_Amuyc";
+  late YoutubePlayerController _controller;
+  final FootballService _footballService = FootballService();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(videoUrl)!,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -28,120 +50,18 @@ class _FootballViewState extends State<FootballView> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
+            Get.toNamed("/home");
           },
         ),
       ),
-      body: _selectedIndex == 0
-          ? FutureBuilder<List<EventModel>>(
-              future: FootballService().fetchUpcomingMatches(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (snapshot.hasData) {
-                  final matches = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: matches.length,
-                    itemBuilder: (context, index) {
-                      final match = matches[index];
-                      return Card(
-                        color: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            match.strEvent ?? 'Unknown Match',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          subtitle: Text(
-                            '${match.dateEvent} at ${match.strTime}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          leading: Image.network(match.strHomeTeamBadge ?? ''),
-                          trailing: Image.network(match.strAwayTeamBadge ?? ''),
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return Center(child: Text('No matches available'));
-                }
-              },
-            )
-          : _selectedIndex == 1
-              ? FutureBuilder<List<LeagueModel>>(
-                  future: FootballService().fetchAllLeagues(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (snapshot.hasData) {
-                      final leagues = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: leagues.length,
-                        itemBuilder: (context, index) {
-                          final league = leagues[index];
-                          return Card(
-                            color: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                league.strLeague ?? 'Unknown League',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              leading: Image.network(league.strBadge ?? ''),
-                              subtitle: Text(
-                                'Country: ${league.strCountry ?? 'Unknown'}',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: Text('No leagues available'));
-                    }
-                  },
-                )
-              : FutureBuilder<List<TeamModel>>(
-                  future: FootballService().fetchTeamsInSpain(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (snapshot.hasData) {
-                      final teams = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: teams.length,
-                        itemBuilder: (context, index) {
-                          final team = teams[index];
-                          return Card(
-                            color: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                team.strTeam ?? 'Unknown Team',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              leading: Image.network(team.strBadge ?? ''),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: Text('No teams available'));
-                    }
-                  },
-                ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          _buildStandings(),
+          _buildTeamsList(),
+          _buildStreamingView(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -150,12 +70,8 @@ class _FootballViewState extends State<FootballView> {
         unselectedItemColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.sports_soccer),
-            label: 'Upcoming Matches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.leaderboard),
-            label: 'Leagues',
+            icon: Icon(Icons.table_chart),
+            label: 'Standings',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
@@ -168,5 +84,133 @@ class _FootballViewState extends State<FootballView> {
         ],
       ),
     );
+  }
+
+  Widget _buildStandings() {
+    return RefreshIndicator(
+      onRefresh: _refreshStandings,
+      child: FutureBuilder<List<StandingsModel>>(
+        future: _footballService.fetchStandings(
+            "PD"), // تأكد من استخدام الرمز الصحيح للدوري الإسباني
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            final standings = snapshot.data!;
+            return ListView.builder(
+              itemCount: standings.length,
+              itemBuilder: (context, index) {
+                final standing = standings[index];
+                return Card(
+                  color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      '${standing.position}. ${standing.team.name}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      'Points: ${standing.points} | Played: ${standing.playedGames}',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    leading: Image.network(standing.team.logo, width: 40),
+                  ),
+                );
+              },
+            );
+          } else {
+            return Center(child: Text('No standings available'));
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildTeamsList() {
+    return RefreshIndicator(
+      onRefresh: _refreshTeams,
+      child: FutureBuilder<List<TeamModel>>(
+        future: _footballService.fetchTeams("PD"),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            final teams = snapshot.data!;
+            return ListView.builder(
+              itemCount: teams.length,
+              itemBuilder: (context, index) {
+                final team = teams[index];
+                return ListTile(
+                  title: Text(
+                    team.name,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  leading: Image.network(team.logo),
+                  onTap: () {
+                    Get.toNamed("/teamDetails", arguments: {
+                      "teamId": team.id,
+                      "crestUrl": team.logo,
+                    });
+                  },
+                );
+              },
+            );
+          } else {
+            return Center(child: Text('No teams available'));
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildStreamingView() {
+    return RefreshIndicator(
+      onRefresh: _refreshStreaming,
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: YoutubePlayerBuilder(
+              player: YoutubePlayer(
+                controller: _controller,
+                showVideoProgressIndicator: true,
+              ),
+              builder: (context, player) {
+                return Column(
+                  children: [
+                    player,
+                    SizedBox(height: 10),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // دالة لتحديث بيانات standings
+  Future<void> _refreshStandings() async {
+    setState(() {
+      // يمكنك تحديث البيانات هنا، مثل استدعاء الدالة التي جلبت البيانات
+    });
+  }
+
+  // دالة لتحديث بيانات الفرق
+  Future<void> _refreshTeams() async {
+    setState(() {
+    });
+  }
+
+  Future<void> _refreshStreaming() async {
+    setState(() {
+    });
   }
 }

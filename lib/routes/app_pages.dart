@@ -2,9 +2,11 @@ import 'package:filmclick/routes/app_routes.dart';
 import 'package:filmclick/shared/SideBar.dart';
 import 'package:filmclick/views/details_view.dart';
 import 'package:filmclick/views/fav_view.dart';
+import 'package:filmclick/views/football/team_details.dart';
 import 'package:filmclick/views/football_view.dart';
 import 'package:filmclick/views/home_view.dart';
 import 'package:filmclick/views/landing/landing_view.dart';
+import 'package:filmclick/views/livetv_view.dart';
 import 'package:filmclick/views/movies_view.dart';
 import 'package:filmclick/views/home/settings_view.dart';
 import 'package:filmclick/views/auth/login_view.dart';
@@ -22,7 +24,7 @@ class AppPages {
     GetPage(name: AppRoutes.login, page: () => LoginView()),
     GetPage(name: AppRoutes.register, page: () => RegisterView()),
     GetPage(name: AppRoutes.landing, page: () => LandingView()),
-
+    GetPage(name: AppRoutes.teamDetails, page: () => TeamDetailsPage()),
     // الصفحات التي تحتوي على الشريط الجانبي
     GetPage(
       name: AppRoutes.home,
@@ -126,6 +128,22 @@ class AppPages {
         body: Stack(
           children: [
             DetailsView(),
+            Positioned(
+              top: 0,
+              right: 0,
+              bottom: 0,
+              child: SideBar(),
+            ),
+          ],
+        ),
+      ),
+    ),
+    GetPage(
+      name: AppRoutes.livetv,
+      page: () => Scaffold(
+        body: Stack(
+          children: [
+           LivetvView(),
             Positioned(
               top: 0,
               right: 0,

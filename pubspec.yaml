@@ -39,7 +39,6 @@ dependencies:
   video_player: ^2.9.2
   carousel_slider: ^5.0.0
   http: ^1.2.2
-  youtube_player_flutter: ^9.1.1
   url_launcher: ^6.3.1
   flutter_downloader: ^1.11.8
   redacted: ^1.0.13
@@ -47,6 +46,8 @@ dependencies:
   flutter_launcher_icons: ^0.14.3
   flutter_local_notifications: ^18.0.1
   permission_handler: ^11.3.1
+  fluttertoast: ^8.2.11
+  youtube_player_flutter: ^9.1.1
 
 dev_dependencies:
   flutter_test:

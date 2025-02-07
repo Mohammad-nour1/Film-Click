@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "235863791148",
+    "project_id": "film-click",
+    "storage_bucket": "film-click.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235863791148:android:24fe464de413ea2141a389",
+        "android_client_info": {
+          "package_name": "com.example.filmclick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235863791148-u6uojdb75si177i500n415s67mvtshal.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.filmclick",
+            "certificate_hash": "1111111111111111111111111111111111111111"
+          }
+        },
+        {
+          "client_id": "235863791148-5cc3r6a7tu5sbv0ottsfml3t08nckdnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiuGVMMO1eOT78dqiudyAmtVaAwprNjjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235863791148-5cc3r6a7tu5sbv0ottsfml3t08nckdnj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

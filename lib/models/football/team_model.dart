@@ -1,16 +1,15 @@
 class TeamModel {
-  final String? strTeam;
-  final String? strBadge;
+  final int id;
+  final String name;
+  final String logo;
 
-  TeamModel({
-    this.strTeam,
-    this.strBadge,
-  });
+  TeamModel({required this.id, required this.name, required this.logo});
 
   factory TeamModel.fromJson(Map<String, dynamic> json) {
     return TeamModel(
-      strTeam: json['strTeam'],
-      strBadge: json['strBadge'],
+      id: json['id'],
+      name: json['name'],
+      logo: json['crest'], // قد يكون `logo` أو `crest` حسب API
     );
   }
 }

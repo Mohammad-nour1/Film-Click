@@ -41,6 +41,8 @@ class SideBar extends StatelessWidget {
                   _buildIconButton(Icons.favorite, AppRoutes.favorites),
                   SizedBox(height: 15),
                   _buildIconButton(Icons.sports_soccer, AppRoutes.football),
+                  SizedBox(height: 15),
+                  _buildIconButton(Icons.live_tv_outlined, AppRoutes.livetv),
                 ],
               ),
             ),

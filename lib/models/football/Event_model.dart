@@ -1,28 +1,22 @@
 class EventModel {
-  final String? strEvent;
-  final String? dateEvent;
-  final String? strTime;
-  final String? strVenue;
-  final String? strHomeTeamBadge;
-  final String? strAwayTeamBadge;
+  final String homeTeam;
+  final String awayTeam;
+  final String date;
+  final String time;
 
   EventModel({
-    this.strEvent,
-    this.dateEvent,
-    this.strTime,
-    this.strVenue,
-    this.strHomeTeamBadge,
-    this.strAwayTeamBadge,
+    required this.homeTeam,
+    required this.awayTeam,
+    required this.date,
+    required this.time,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
-      strEvent: json['strEvent'],
-      dateEvent: json['dateEvent'],
-      strTime: json['strTime'],
-      strVenue: json['strVenue'],
-      strHomeTeamBadge: json['strHomeTeamBadge'],
-      strAwayTeamBadge: json['strAwayTeamBadge'],
+      homeTeam: json['homeTeam']['name'] ?? 'Unknown Team',
+      awayTeam: json['awayTeam']['name'] ?? 'Unknown Team',
+      date: json['utcDate']?.split('T')[0] ?? 'No Date', // تقسيم التاريخ من UTC
+      time: json['utcDate']?.split('T')[1].split('Z')[0] ?? 'No Time', // تقسيم الوقت
     );
   }
 }

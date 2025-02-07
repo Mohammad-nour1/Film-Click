@@ -22,7 +22,7 @@ class FavoritesView extends StatelessWidget {
           icon: Icon(Icons.arrow_back,
               color: Colors.white), // تغيير لون زر الرجوع إلى الأبيض
           onPressed: () {
-            Navigator.pop(context);
+            Get.toNamed("/home");
           },
         ),
       ),
