@@ -5,9 +5,6 @@ import 'package:filmclick/models/movie_model.dart';
 class DetailsController extends GetxController {
   final MovieService _movieService = MovieService();
 
-
-
-  // المتغيرات التي ستخزن بيانات الفيلم والمسلسل
   var movie = Movie(
     adult: false,
     backdropPath: '',
@@ -46,43 +43,35 @@ class DetailsController extends GetxController {
     cast: [],
   ).obs;
 
-  // قائمة الممثلين (طاقم العمل)
   var cast = <Map<String, dynamic>>[].obs;
 
-  // المتغيرات التي تحتوي على روابط الفيديوهات
   var trailerVideoKey = ''.obs;
   var mainVideoKey = ''.obs;
 
-  // للتحقق من إذا كان العنصر مضافًا إلى المفضلة
   var isFavorite = false.obs;
   final RxList<Map<String, dynamic>> favorites = <Map<String, dynamic>>[].obs;
 
-  // دالة لتعيين بيانات الفيلم
   void setMovie(Movie m) {
     movie.value = m;
-    checkIfFavorite(m.id); // تحقق من حالة الفيلم إذا كان مضافًا إلى المفضلة
-    fetchCast(m.id, isMovie: true); // جلب الممثلين بعد تعيين الفيلم
-    fetchVideos(m.id, isMovie: true); // جلب الفيديوهات بعد تعيين الفيلم
+    checkIfFavorite(m.id);
+    fetchCast(m.id, isMovie: true);
+    fetchVideos(m.id, isMovie: true);
   }
 
-  // دالة لتعيين بيانات المسلسل
   void setTvShow(TvShow tv) {
     tvShow.value = tv;
-    checkIfFavorite(tv.id); // تحقق من حالة المسلسل إذا كان مضافًا إلى المفضلة
-    fetchCast(tv.id, isMovie: false); // جلب الممثلين بعد تعيين المسلسل
-    fetchVideos(tv.id, isMovie: false); // جلب الفيديوهات بعد تعيين المسلسل
+    checkIfFavorite(tv.id);
+    fetchCast(tv.id, isMovie: false);
+    fetchVideos(tv.id, isMovie: false);
   }
 
-  // دالة لجلب الفيديوهات (التريلر والفيديو الرئيسي)
   void fetchVideos(int id, {bool isMovie = true}) async {
     try {
       final videos = await _movieService.fetchVideos(id, isMovie: isMovie);
-      // جلب تريلر
       trailerVideoKey.value = videos.firstWhere(
         (video) => video['type'] == 'Trailer',
         orElse: () => {'key': ''},
       )['key'];
-      // جلب الفيديو الرئيسي (Teaser)
       mainVideoKey.value = videos.firstWhere(
         (video) => video['type'] == 'Teaser',
         orElse: () => {'key': ''},
@@ -92,7 +81,6 @@ class DetailsController extends GetxController {
     }
   }
 
-  // دالة لجلب الممثلين (طاقم العمل)
   void fetchCast(int id, {bool isMovie = true}) async {
     try {
       cast.value = await _movieService.fetchCast(id, isMovie: isMovie);
@@ -101,7 +89,6 @@ class DetailsController extends GetxController {
     }
   }
 
-  // دالة لتبديل حالة المفضلة
   void toggleFavorite(int i) {
     final currentItem = movie.value.id != 0 ? movie.value : tvShow.value;
     final isMovie = movie.value.id != 0;
@@ -134,7 +121,6 @@ class DetailsController extends GetxController {
     }
   }
 
-  // تحقق إذا كان العنصر مضافًا إلى المفضلة
   void checkIfFavorite(int id) {
     isFavorite.value = favorites.any((item) => item['id'] == id);
   }
@@ -144,7 +130,6 @@ class DetailsController extends GetxController {
       id: favorite['id'],
       title: favorite['title'],
       posterPath: favorite['posterPath'],
-      // باقي الحقول يمكن أن تظل فارغة حسب الحاجة
       adult: false,
       backdropPath: '',
       genreIds: [],
@@ -166,7 +151,6 @@ class DetailsController extends GetxController {
       id: favorite['id'],
       name: favorite['title'],
       posterPath: favorite['posterPath'],
-      // باقي الحقول يمكن أن تظل فارغة حسب الحاجة
       adult: false,
       backdropPath: '',
       genreIds: [],

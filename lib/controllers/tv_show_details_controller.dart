@@ -1,4 +1,4 @@
-import 'package:filmclick/models/movie_model.dart';
+/*import 'package:filmclick/models/movie_model.dart';
 import 'package:filmclick/services/cast_service.dart';
 import 'package:filmclick/services/fetchs_service.dart';
 import 'package:filmclick/services/video_service.dart';
@@ -59,4 +59,4 @@ class TvShowDetailsController extends GetxController {
     isFavorite.value = !isFavorite.value; // Toggle the favorite state
     // You can add logic here to save the favorite status (e.g., saving to local storage or API)
   }
-}
+}*/

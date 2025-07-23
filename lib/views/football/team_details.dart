@@ -4,18 +4,40 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-class TeamDetailsPage extends StatelessWidget {
+class TeamDetailsPage extends StatefulWidget {
+  @override
+  _TeamDetailsPageState createState() => _TeamDetailsPageState();
+}
+
+class _TeamDetailsPageState extends State<TeamDetailsPage> {
   final FootballService _footballService = FootballService();
+  late Future<TeamDetails> _teamDetailsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    final arguments = Get.arguments as Map<String, dynamic>?;
+    final teamId = arguments?['teamId'];
+    _teamDetailsFuture =
+        _footballService.fetchTeamDetails(teamId); // تحميل البيانات عند الدخول
+  }
+
+  void _refreshData() {
+    final arguments = Get.arguments as Map<String, dynamic>?;
+    final teamId = arguments?['teamId'];
+    setState(() {
+      _teamDetailsFuture = _footballService.fetchTeamDetails(
+          teamId); // إعادة تحميل البيانات عند الضغط على زر التحديث
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final arguments = Get.arguments as Map<String, dynamic>?;
-    final teamId = arguments?['teamId']; // الحصول على الفريق من arguments
     final crestUrl = arguments?['crestUrl']; // الحصول على رابط الصورة
 
     return WillPopScope(
       onWillPop: () async {
-        // عند العودة، نقوم بتحديث البيانات (إن أردت).
         Get.back();
         return true;
       },
@@ -27,14 +49,19 @@ class TeamDetailsPage extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
-              // استخدام Get.back() للرجوع إلى الصفحة السابقة
               Get.back();
             },
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh, color: Colors.white),
+              onPressed:
+                  _refreshData, // عند الضغط على زر التحديث، سيتم تحديث البيانات
+            ),
+          ],
         ),
         body: FutureBuilder<TeamDetails>(
-          future: _footballService
-              .fetchTeamDetails(teamId), // تحميل البيانات عند الدخول
+          future: _teamDetailsFuture, // استخدام المستقبل الذي يحمل البيانات
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());

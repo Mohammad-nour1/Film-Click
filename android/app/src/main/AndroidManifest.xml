@@ -26,14 +26,7 @@
         <!-- Flutter Plugin Registrant -->
         <meta-data
             android:name="flutterEmbedding"
-            android:value="2" />
-
-        <!-- مزود لـ flutter_downloader -->
-        <provider
-            android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
-            android:authorities="${applicationId}.flutter_downloader.provider"
-            android:exported="false"
-            android:grantUriPermissions="true" />
+            android:value="2" />        
     </application>
 
     <!-- أذونات الإنترنت والوصول إلى التخزين -->

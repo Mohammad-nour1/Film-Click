@@ -25,4 +25,31 @@ class TvShowsController extends GetxController {
       isLoading(false);
     }
   }
+
+   
+  // دالة لجلب جميع البيانات
+  Future<void> fetchData() async {
+    try {
+      isLoading(true); // بدء حالة التحميل
+
+     
+      
+
+      final popularTvShowsData = await _movieService.fetchPopularTvShows();
+      // تأكد من أن البيانات ليست فارغة قبل تحويلها
+      tvShows.value = List<TvShow>.from(popularTvShowsData);
+
+    
+      
+    } catch (e) {
+      print("Error fetching data: $e"); // طباعة الخطأ في حال حدوث مشكلة
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  // دالة لتحديث البيانات (تستخدم مع RefreshIndicator)
+  Future<void> refreshData() async {
+    fetchData(); // إعادة جلب البيانات
+  }
 }

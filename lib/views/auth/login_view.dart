@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:filmclick/routes/app_routes.dart';
 
 class LoginView extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,8 +15,8 @@ class LoginView extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/logpic.png'), // مسار الصورة
-                fit: BoxFit.cover, // لتعبئة الشاشة بالكامل
+                image: AssetImage('assets/images/logpic.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -27,9 +30,8 @@ class LoginView extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    const Color.fromARGB(0, 61, 218, 239), // يبدأ شفافًا
-                    const Color.fromARGB(255, 53, 227, 236)
-                        .withOpacity(0.7), // تدريج إلى اللون الأسود
+                    const Color.fromARGB(0, 61, 218, 239),
+                    const Color.fromARGB(255, 53, 227, 236).withOpacity(0.7),
                   ],
                 ),
               ),
@@ -39,14 +41,14 @@ class LoginView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end, // وضع المحتوى في الأسفل
-              crossAxisAlignment: CrossAxisAlignment.center, // توسيط المحتوى
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.7), // خلفية شفافة
-                    borderRadius: BorderRadius.circular(16.0), // حواف دائرية
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -61,6 +63,7 @@ class LoginView extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: emailController, // تحكم بحقل البريد
                         decoration: InputDecoration(
                           hintText: 'Email',
                           border: const OutlineInputBorder(),
@@ -72,6 +75,7 @@ class LoginView extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: passwordController, // تحكم بحقل الباسورد
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: 'Password',
@@ -90,12 +94,26 @@ class LoginView extends StatelessWidget {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Get.toNamed(AppRoutes.home);
+                          if (emailController.text == 'admin' &&
+                              passwordController.text == 'admin') {
+                            Get.toNamed(AppRoutes.home);
+                          } else {
+                            Get.snackbar(
+                              'Error',
+                              'Invalid email or password',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red.withOpacity(0.8),
+                              colorText: Colors.white,
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF36FFDB),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 145, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.32,
+                            vertical: 9,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

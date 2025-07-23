@@ -59,18 +59,23 @@ class LandingView extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF36FFDB),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 142, vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width *
+                                0.36, // استخدم النسبة لتحديد العرض بناءً على حجم الشاشة
+                            vertical: 9,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: const Text(
                           'Login',
-                          style: TextStyle(fontSize: 21, color: Colors.black),
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors
+                                  .black), // تقليل حجم النص ليظهر بشكل مناسب على الشاشات الصغيرة والكبيرة
                         ),
                       ),
-                      const SizedBox(height: 10),
 
                       OutlinedButton(
                         onPressed: () {
@@ -81,14 +86,17 @@ class LandingView extends StatelessWidget {
                               color: Color(0xFF36FFDB),
                               width: 2), // إطار بلون النص
                           padding: EdgeInsets.symmetric(
-                              horizontal: 60, vertical: 8), // تغيير الحجم
+                            horizontal: MediaQuery.of(context).size.width *
+                                0.18, // استخدم النسبة لتحديد العرض بناءً على حجم الشاشة
+                            vertical: 9,
+                          ), // تغيير الحجم
                           shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.circular(10), // زوايا دائرية
                           ),
                         ),
                         child: const Text(
-                          'If You Don\'t Have Acc, Sign Up',
+                          'New Member ? Sign Up',
                           style: TextStyle(
                             fontSize: 16,
                             color: Color(0xFF36FFDB), // لون النص نفس لون الإطار

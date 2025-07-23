@@ -29,8 +29,7 @@ class NotificationService {
   }
 
   void startPeriodicNotifications() {
-    // إرسال إشعار كل 15 ثانية
-    Timer.periodic(Duration(seconds: 86), (timer) {
+    Timer.periodic(Duration(seconds: 90), (timer) {
       showNotification();
     });
   }

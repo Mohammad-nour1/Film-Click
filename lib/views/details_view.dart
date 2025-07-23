@@ -34,7 +34,6 @@ class DetailsView extends StatelessWidget {
               homeController.refreshData();
               Get.toNamed("/home");
             },
-           
           ),
           title: Text(
             movie != null ? movie.title : tvShow?.name ?? 'Details',
@@ -93,7 +92,10 @@ class DetailsView extends StatelessWidget {
                                 ? Colors.red
                                 : Color.fromARGB(126, 54, 255, 218),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 120, vertical: 8),
+                              horizontal: MediaQuery.of(context).size.width *
+                                  0.335, // استخدم النسبة لتحديد العرض بناءً على حجم الشاشة
+                              vertical: 9,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -108,9 +110,7 @@ class DetailsView extends StatelessWidget {
                             color: Colors.white,
                           ),
                           label: Text(
-                            isFavorite
-                                ? 'Remove from Favorites'
-                                : 'Add to Favorites',
+                            isFavorite ? 'Remove from Favorite' : 'Favorite',
                             style: TextStyle(color: Colors.white),
                           ),
                         );
@@ -169,7 +169,11 @@ class DetailsView extends StatelessWidget {
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
             backgroundColor: Color.fromARGB(126, 54, 255, 218),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width *
+                  0.286, // استخدم النسبة لتحديد العرض بناءً على حجم الشاشة
+              vertical: 9,
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -184,24 +188,6 @@ class DetailsView extends StatelessWidget {
           icon: Icon(Icons.play_circle, color: Colors.white),
           label: Text('Watch Trailer', style: TextStyle(color: Colors.white)),
         ),
-        if (movie != null)
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(126, 54, 255, 218),
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              shadowColor: const Color.fromARGB(255, 5, 237, 245),
-              elevation: 9,
-            ),
-            onPressed: () {
-              controller.fetchVideos(movie.id, isMovie: true);
-              showTrailer(context, isMainVideo: true);
-            },
-            icon: Icon(Icons.movie, color: Colors.white),
-            label: Text('Watch Movie', style: TextStyle(color: Colors.white)),
-          ),
       ],
     );
   }

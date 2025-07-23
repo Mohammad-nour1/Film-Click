@@ -7,8 +7,7 @@ class ApiService {
 
   Future<dynamic> getRequest(String endpoint) async {
     final url = Uri.parse('$baseUrl/$endpoint?api_key=$apiKey');
-    print('Fetching data from: $url'); // تحقق من الرابط النهائي
-
+    print('Fetching data from: $url'); 
     try {
       final response = await http.get(url);
       print('Response status: ${response.statusCode}');

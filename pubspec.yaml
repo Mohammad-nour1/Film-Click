@@ -91,7 +91,7 @@ flutter:
     - assets/images/cin.png
     - assets/images/prof.png
     - assets/animation/movie1.json
-    - assets/animation/loading.gif
+
     - assets/fonts/CooperArabic.ttf
 
   fonts:

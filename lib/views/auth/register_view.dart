@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Stack(
         children: [
@@ -102,8 +104,11 @@ class RegisterView extends StatelessWidget {
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF36FFDB),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 132, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width *
+                                0.29, // استخدم النسبة لتحديد العرض بناءً على حجم الشاشة
+                            vertical: 9,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -113,7 +118,7 @@ class RegisterView extends StatelessWidget {
                           style: TextStyle(fontSize: 21, color: Colors.black),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       TextButton(
                         onPressed: () {
                           Get.back();
